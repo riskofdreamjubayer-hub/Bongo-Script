@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta name="google-site-verification" content="uE3IbxQyClgwn4Zrcaupcl9BJ0WHoLdL6dbshOv3kZE" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Script Bongo 𒀭</title>
+    
+    <!-- Premium Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    
+    <style>
+        /* === PREMIUM UI CSS === */
+        :root {
+            --primary: #7C3AED;
+            --primary-gradient: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+            --accent: #F59E0B;
+            --bg-body: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --text-title: #111827;
+            --text-body: #4B5563;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --shadow-premium: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --bkash: #E2136E;
+            --nagad: #F6921E;
+            --rocket: #8C3494;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        h1, h2, h3, h4, .section-title {
+            font-family: 'Hind Siliguri', 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            padding-bottom: 90px;
+            overflow-x: hidden;
+            letter-spacing: -0.01em;
+        }
+
+        /* === ANIMATIONS === */
+        .page { display: none; opacity: 0; transform: translateY(12px); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .page.active { display: block; opacity: 1; transform: translateY(0); }
+
+        /* === HEADER === */
+        .header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 14px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+        .logo-img { 
+            width: 40px; height: 40px; border-radius: 20px; 
+            background: var(--primary-gradient); object-fit: contain; padding: 3px;
+            box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
+        }
+        .logo-text h1 { font-size: 17px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+        
+        .user-actions { display: flex; gap: 10px; align-items: center; }
+        .balance-card { 
+            background: #F3E8FF; padding: 6px 14px; border-radius: 20px; 
+            font-size: 13px; font-weight: 700; color: var(--primary);
+            border: 1px solid rgba(124, 58, 237, 0.1);
+        }
+        .login-btn { 
+            background: var(--primary-gradient); color: white; 
+            border: none; padding: 8px 18px; border-radius: 20px; 
+            font-weight: 600; font-size: 13px; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+        }
+
+        /* === TICKER === */
+        .headline-ticker { 
+            background: #111827; color: #F9FAFB; 
+            padding: 10px 0; font-size: 12.5px; font-weight: 500;
+            border-bottom: 2px solid var(--accent);
+        }
+        .ticker-container { 
+            display: inline-block; white-space: nowrap; 
+            animation: ticker 30s linear infinite; 
+        }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .ticker-item { display: inline-block; padding-right: 40px; opacity: 0.9; }
+
+        /* === SLIDER === */
+        .swiper-container { 
+            width: 92%; height: 175px; margin: 18px auto; 
+            border-radius: 40px; overflow: hidden;
+            box-shadow: var(--shadow-premium);
+        }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* === SECTIONS === */
+        .section-header { padding: 20px 20px 10px; display: flex; justify-content: space-between; align-items: center; }
+        .section-title { font-size: 19px; font-weight: 700; color: var(--text-title); display: flex; align-items: center; gap: 10px; }
+        .view-all { font-size: 13px; color: var(--primary); font-weight: 600; background: #F3E8FF; padding: 4px 10px; border-radius: 8px; }
+
+        /* === PRODUCT CARDS === */
+        .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; padding: 16px; }
+        .product-card { 
+            background: var(--white); border-radius: 20px; overflow: hidden; 
+            box-shadow: var(--shadow-premium); display: flex; flex-direction: column; 
+            transition: all 0.3s ease; border: 1px solid #F3F4F6;
+        }
+        .product-card:active { transform: scale(0.96); }
+        .product-image { width: 100%; height: 125px; object-fit: cover; }
+        .product-content { padding: 14px; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-title { 
+            font-size: 14.5px; font-weight: 600; margin-bottom: 8px; 
+            color: var(--text-title); height: 40px; line-height: 1.4;
+            overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        }
+        .product-price { margin-top: auto; font-size: 17px; font-weight: 800; color: var(--primary); }
+        .regular-price { font-size: 11.5px; color: #9CA3AF; text-decoration: line-through; margin-right: 6px; }
+        
+        .product-buttons { display: flex; gap: 8px; margin-top: 14px; }
+        .btn { 
+            flex: 1; padding: 11px 0; border: none; border-radius: 20px; 
+            font-size: 12px; font-weight: 700; cursor: pointer;
+            transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px;
+        }
+        .btn-outline { background: #F9FAFB; color: var(--primary); border: 1.5px solid #E5E7EB; }
+        .btn-solid { background: var(--primary-gradient); color: white; box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2); }
+
+        /* === ADD MONEY SECTION === */
+        .method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 0 20px; }
+        .method-card { 
+            background: white; padding: 18px 10px; border-radius: 40px; text-align: center; 
+            border: 2.5px solid transparent; transition: 0.3s; cursor: pointer;
+            box-shadow: var(--shadow-premium);
+        }
+        .method-card.active { border-color: var(--primary); background: #F5F3FF; }
+        .method-logo { width: 50px; height: 50px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; }
+        .method-name { font-size: 13px; font-weight: 700; color: #374151; }
+
+        .form-card {
+            margin: 20px; padding: 22px; border-radius: 24px;
+            background: white; border: 1px solid #F3F4F6; box-shadow: var(--shadow-premium);
+        }
+        .form-input { 
+            width: 100%; padding: 15px; border: 1.5px solid #E5E7EB; 
+            border-radius: 14px; font-size: 15px; transition: 0.3s; margin-bottom: 16px;
+            background: #F9FAFB;
+        }
+        .form-input:focus { border-color: var(--primary); outline: none; background: #FFFFFF; box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1); }
+        .submit-btn { 
+            background: var(--primary-gradient); color: white; width: 100%; padding: 15px; 
+            border-radius: 14px; font-weight: 700; border: none; cursor: pointer;
+            box-shadow: 0 6px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        /* === BOTTOM NAV (MODERN FLOATING) === */
+        .bottom-nav {
+            position: fixed; bottom: 18px; left: 18px; right: 18px;
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            height: 70px; display: flex; justify-content: space-around;
+            border-radius: 22px; border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+            z-index: 1000; padding: 0 8px;
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #9CA3AF; font-size: 11px; font-weight: 600; cursor: pointer; width: 22%;
+            transition: 0.3s; position: relative;
+        }
+        .nav-item i { font-size: 21px; margin-bottom: 5px; transition: 0.3s; }
+        .nav-item.active { color: white; }
+        .nav-item.active::after {
+            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 25px; height: 3px; background: var(--primary); border-radius: 0 0 10px 10px;
+        }
+        .nav-badge { 
+            position: absolute; top: 12px; right: 15px; 
+            background: var(--accent); color: white; 
+            font-size: 10px; min-width: 17px; height: 17px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            border: 2px solid #111827; font-weight: 800;
+        }
+
+        /* === MODALS === */
+        .modal { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(6px); z-index: 2000; 
+        }
+        .modal-content { 
+            background: white; width: 92%; max-width: 420px; margin: 15% auto; 
+            padding: 30px; border-radius: 28px; position: relative;
+            transform: translateY(20px); transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); opacity: 0;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .show-modal .modal-content { transform: translateY(0); opacity: 1; }
+        .modal-close { position: absolute; right: 22px; top: 22px; font-size: 24px; color: #9CA3AF; cursor: pointer; }
+
+        /* Custom Alert */
+        .alert { 
+            position: fixed; top: 85px; right: 20px; 
+            background: white; padding: 15px 22px; border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-left: 5px solid var(--primary);
+            z-index: 9999; display: flex; align-items: center; gap: 12px;
+            font-weight: 600; font-size: 14.5px; color: var(--text-title);
+            animation: slideIn 0.4s ease-out;
+        }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+
+        /* Design */
+        .profile-header { 
+            background: var(--primary-gradient); 
+            padding: 45px 20px; text-align: center; border-radius: 0 0 40px 40px; color: white;
+            box-shadow: 0 10px 20px rgba(124, 58, 237, 0.2);
+        }
+        .profile-avatar { 
+            width: 90px; height: 90px; background: rgba(255,255,255,0.25); 
+            border: 4px solid rgba(255,255,255,0.4);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            font-size: 38px; margin: 0 auto 15px;
+        }
+        .menu-item { 
+            background: white; padding: 18px; border-radius: 18px; margin: 0 18px 14px; 
+            display: flex; align-items: center; justify-content: space-between; 
+            box-shadow: var(--shadow-premium); border: 1px solid #F3F4F6;
+        }
+
+        /* Ripple Effect */
+        .ripple-btn { position: relative; overflow: hidden; }
+        .ripple { position: absolute; background: rgba(255,255,255,0.45); border-radius: 50%; transform: scale(0); animation: ripple 0.6s linear; pointer-events: none; }
+        @keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo-container">
+            <img src="https://i.supaimg.com/8a4b3166-6833-4068-980b-15852314cb97/1299ea2f-376e-4591-861d-08335351fc4b.jpg" class="logo-img" alt="Logo">
+            <div class="logo-text">
+                <h1>Script Bongoo 𒀭</h1>
+            </div>
+        </div>
+        
+        <div class="user-actions">
+            <div class="balance-card">
+                <i class="fas fa-wallet" style="margin-right: 5px;"></i>
+                <span id="headerBalance">0 ৳</span>
+            </div>
+            <button class="login-btn ripple-btn" id="loginBtn">Login</button>
+        </div>
+    </div>
+
+    <!-- TICKER -->
+    <div class="headline-ticker">
+        <div class="ticker-container" id="tickerContainer"></div>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div id="home-page" class="page active">
+        <div class="swiper-container">
+            <div class="swiper-wrapper" id="sliderContainer"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <div class="section-header">
+            <div class="section-title"><i class="fas fa-graduation-cap" style="color: var(--primary);"></i>প্রিমিয়াম ওয়েবসাইট</div>
+            <div class="view-all">সব দেখুন</div>
+        </div>
+        <div class="products-grid" id="coursesContainer"></div>
+
+        <div class="section-header">
+            <div class="section-title"><i class="fas fa-mobile-screen-button" style="color: var(--accent);"></i>প্রিমিয়াম ফাইল</div>
+            <div class="view-all">সব দেখুন</div>
+        </div>
+        <div class="products-grid" id="appsContainer"></div>
+    </div>
+
+    <!-- ADD MONEY PAGE -->
+    <div id="add-money-page" class="page">
+        <div id="mainPaymentDashboard">
+            <div style="padding: 30px 20px 10px; text-align: center;">
+                <h2 style="font-weight: 800; font-size: 24px; color: var(--text-title);">ব্যালেন্স 𝐀ᴅᴅ 𝐌ᴏɴᴇʏ</h2>
+                <p style="color: var(--text-body); font-size: 14px; margin-top: 5px;">পছন্দের মেথডটি নির্বাচন করুন</p>
+            </div>
+            
+            <div class="method-grid">
+                <div class="method-card ripple-btn" data-brand="bkash" onclick="selectPaymentMethod('bkash')">
+                    <img src="https://i.ibb.co/3m1nmZKG/file-00000000a048821181681248ff30cb3d.png" class="method-logo" alt="bKash">
+                    <div class="method-name">bKash</div>
+                </div>
+                <div class="method-card ripple-btn" data-brand="nagad" onclick="selectPaymentMethod('nagad')">
+                    <img src="https://i.ibb.co/3m1nmZKG/file-00000000a048821181681248ff30cb3d.png" class="method-logo" alt="Nagad">
+                    <div class="method-name">Nagad</div>
+                </div>
+                <div class="method-card ripple-btn" data-brand="rocket" onclick="selectPaymentMethod('rocket')">
+                    <img src="https://i.ibb.co.com/SwFZGFNN/mobile-Banking-Billboard.jpg" class="method-logo" alt="Rocket">
+                    <div class="method-name">Rocket</div>
+                </div>
+            </div>
+
+            <div class="auto-payment-section">
+                <div class="form-card">
+                    <h4 style="margin-bottom: 15px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-bolt"></i> অটো পেমেন্ট (দ্রুততম)
+                    </h4>
+                    <input type="number" id="autoAmountInput" class="form-input" placeholder="টাকার পরিমাণ লিখুন">
+                    <button class="submit-btn ripple-btn" onclick="initiateAutoPayment()">এগিয়ে যান</button>
+                    <p style="text-align: center; font-size: 11px; color: #9CA3AF; margin-top: 10px;">* ১ মিনিটে ব্যালেন্স যুক্ত হবে</p>
+                </div>
+            </div>
+            
+            <div style="padding: 0 20px 25px;">
+                <h3 style="margin-bottom: 15px; font-size: 17px; font-weight: 700;">পেমেন্ট হিস্টোরি</h3>
+                <div id="paymentHistory"></div>
+            </div>
+        </div>
+
+        <!-- MANUAL FORM -->
+        <div id="paymentForm" style="display: none; padding: 20px;">
+            <button onclick="backToMethods()" style="border:none; background:#F3E8FF; padding: 8px 15px; border-radius: 10px; font-weight:700; color:var(--primary); margin-bottom:18px;">
+                <i class="fas fa-chevron-left"></i> মেথড পরিবর্তন
+            </button>
+            <div class="form-card" style="margin: 0; padding: 25px;">
+                <h3 id="paymentMethodTitle" style="margin-bottom: 22px; font-weight: 800;"></h3>
+                
+                <div style="background: #F9FAFB; padding: 20px; border-radius: 18px; text-align: center; margin-bottom: 22px; border: 2px dashed #E5E7EB;">
+                    <div style="font-size: 13px; color: #6B7280; font-weight: 500;">পার্সোনাল নম্বরটি কপি করুন</div>
+                    <div id="paymentNumber" style="font-size: 24px; font-weight: 900; color: var(--primary); margin: 8px 0; letter-spacing: 1px;"></div>
+                    <button onclick="copyPaymentNumber()" class="btn btn-outline" style="max-width: 110px; margin: 0 auto; height: 35px; font-size: 12px; background: white;">কপি করুন</button>
+                </div>
+
+                <label style="font-size: 13px; font-weight: 600; color: #4B5563; margin-bottom: 8px; display: block;">পাঠানো টাকার পরিমাণ</label>
+                <input type="number" id="amountInput" class="form-input" placeholder="৳ 0.00">
+                
+                <label style="font-size: 13px; font-weight: 600; color: #4B5563; margin-bottom: 8px; display: block;">Transaction ID</label>
+                <input type="text" id="trxInput" class="form-input" placeholder="Ex: 8NH7Y89S">
+                
+                <button class="submit-btn ripple-btn" onclick="submitPaymentRequest()">ভেরিফাই পেমেন্ট</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART PAGE -->
+    <div id="cart-page" class="page">
+        <div style="padding: 25px 20px;">
+            <h2 style="font-weight: 800; font-size: 24px; text-align: center; margin-bottom: 25px;">আপনার কেনাকাটা</h2>
+            <div id="cartItems"></div>
+        </div>
+        
+        <div id="cartFooter" style="position: fixed; bottom: 100px; left: 20px; right: 20px; background: white; padding: 20px; border-radius: 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -10px 30px rgba(0,0,0,0.08); border: 1px solid #F3F4F6; display: none; z-index: 999;">
+            <div>
+                <div style="font-size: 12px; color: #6B7280; font-weight: 600;">সর্বমোট টাকা</div>
+                <div style="font-size: 24px; font-weight: 900; color: var(--primary);">৳ <span id="cartTotal">0</span></div>
+            </div>
+            <button class="btn btn-solid ripple-btn" style="width: 160px; height: 50px; border-radius: 30px; font-size: 15px;" onclick="checkoutCart()">অর্ডার করুন</button>
+        </div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div id="profile-page" class="page">
+        <div class="profile-header">
+            <div class="profile-avatar"><i class="fas fa-store"></i></div>
+            <h2 id="profileName" style="font-weight: 800;">একাউন্ট খুলুন</h2>
+            <p id="profileEmail" style="opacity: 0.85; font-size: 14px; margin-top: 3px;"></p>
+            <div style="margin-top: 15px; background: rgba(255,255,255,0.2); display: inline-flex; align-items: center; gap: 8px; padding: 8px 22px; border-radius: 100px; font-weight: 700; border: 1px solid rgba(255,255,255,0.3);">
+                <i class="fas fa-coins" style="color: #FFD700;"></i> ৳ <span id="profileBalance">0</span>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <div class="menu-item ripple-btn" onclick="openOrders()">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 44px; height: 44px; background: #EEF2FF; color: #4F46E5; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 18px;"><i class="fas fa-bag-shopping"></i></div>
+                    <div><h4 style="font-size: 15px; font-weight: 700; color: #1F2937;">আমার অর্ডার</h4><p style="font-size: 12px; color: #9CA3AF;">সবগুলো পারচেজ হিস্টোরি</p></div>
+                </div>
+                <i class="fas fa-chevron-right" style="color: #D1D5DB;"></i>
+            </div>
+
+            <div class="menu-item ripple-btn" onclick="openSupport()">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 44px; height: 44px; background: #F0FDF4; color: #16A34A; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 18px;"><i class="fas fa-headset"></i></div>
+                    <div><h4 style="font-size: 15px; font-weight: 700; color: #1F2937;">হেল্প সেন্টার</h4><p style="font-size: 12px; color: #9CA3AF;">লাইভ সাপোর্ট ও সাহায্য</p></div>
+                </div>
+                <i class="fas fa-chevron-right" style="color: #D1D5DB;"></i>
+            </div>
+
+            <div class="menu-item ripple-btn" onclick="logout()" style="border: 1px solid #FEE2E2; background: #FFFBFB;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 44px; height: 44px; background: #FEF2F2; color: #DC2626; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 18px;"><i class="fas fa-sign-out-alt"></i></div>
+                    <div><h4 style="font-size: 15px; font-weight: 700; color: #DC2626;">লগআউট</h4></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <div class="bottom-nav">
+        <div class="nav-item active ripple-btn" onclick="switchTab('home-page', this)"><i class="fas fa-house-chimney"></i><span>হোম</span></div>
+        <div class="nav-item ripple-btn" onclick="switchTab('add-money-page', this)"><i class="fas fa-wallet"></i><span>অ্যাড টাকা</span></div>
+        <div class="nav-item ripple-btn" onclick="switchTab('cart-page', this)"><i class="fas fa-cart-shopping"></i><span>কার্ট</span><div class="nav-badge" id="cartBadge">0</div></div>
+        <div class="nav-item ripple-btn" onclick="switchTab('profile-page', this)"><i class="fas fa-user"></i><span>প্রোফাইল</span></div>
+    </div>
+
+    <!-- MODALS -->
+    <div id="welcomeModal" class="modal"><div class="modal-content" style="text-align: center;"><h2 style="font-weight: 800; color: var(--primary); margin-bottom: 12px;">📢 জরুরি নোটিশ</h2><p id="welcomeText" style="font-size: 14.5px; color: #4B5563; margin-bottom: 25px; line-height: 1.7;"></p><div style="display:grid; gap:12px;"><a href="#" id="welcomeTgLink" class="btn btn-solid" style="text-decoration:none; color:white; height: 48px;" target="_blank"><i class="fab fa-telegram"></i> জয়েন টেলিগ্রাম চ্যানেল</a><button class="btn btn-outline" style="height: 48px; font-weight: 700;" onclick="closeModal('welcomeModal')">বন্ধ করুন</button></div></div></div>
+    
+    <div id="authModal" class="modal"><div class="modal-content"><span class="modal-close" onclick="closeModal('authModal')">&times;</span><div style="display:flex; border-bottom:2px solid #F3F4F6; margin-bottom:22px;"><div class="nav-item active" id="tab-login" onclick="switchAuthTab('login')" style="flex:1; padding:12px; cursor:pointer; text-align:center; font-weight: 700; color: var(--primary);">লগইন</div><div class="nav-item" id="tab-register" onclick="switchAuthTab('register')" style="flex:1; padding:12px; cursor:pointer; text-align:center; font-weight: 700;">রেজিস্ট্রেশন</div></div><div id="loginForm"><input type="email" id="loginEmail" class="form-input" placeholder="আপনার ইমেইল"><input type="password" id="loginPassword" class="form-input" placeholder="পাসওয়ার্ড"><button class="submit-btn ripple-btn" onclick="login()">লগইন করুন</button></div><div id="registerForm" style="display:none;"><input type="text" id="registerName" class="form-input" placeholder="আপনার নাম"><input type="email" id="registerEmail" class="form-input" placeholder="আপনার ইমেইল"><input type="password" id="registerPassword" class="form-input" placeholder="পাসওয়ার্ড (৬+ অক্ষর)"><button class="submit-btn ripple-btn" onclick="register()">একাউন্ট তৈরি করুন</button></div></div></div>
+
+    <div id="productDetailModal" class="modal"><div class="modal-content"><span class="modal-close" onclick="closeModal('productDetailModal')">&times;</span><img id="detailImage" style="width:100%; height:190px; object-fit:cover; border-radius:20px; margin-bottom:18px;"><h2 id="detailTitle" style="font-weight:800; font-size:19px;"></h2><div id="detailPrice" style="color:var(--primary); font-size:22px; font-weight:900; margin:12px 0;"></div><div id="detailDesc" style="font-size:13.5px; color:#6B7280; max-height:160px; overflow-y:auto; margin-bottom:25px; line-height: 1.6;"></div><div class="product-buttons"><button class="btn btn-outline" style="height: 48px;" onclick="addToCartFromDetail()">𝐂ᴀʀᴛ এ রাখুন</button><button class="btn btn-solid" style="height: 48px;" onclick="buyNowFromDetail()">এখনই কিনুন</button></div></div></div>
+
+    <div id="successModal" class="modal"><div class="modal-content" style="text-align: center;"><div style="width:75px; height:75px; background:#ECFDF5; color:#10B981; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:35px; margin: 0 auto 20px;"><i class="fas fa-check-circle"></i></div><h2 style="font-weight:900; margin-bottom:12px;">অভিনন্দন!</h2><p id="successMessage" style="font-size:14px; color:#6B7280; margin-bottom:22px; line-height: 1.5;"></p><div id="successLinksContainer"></div><button class="btn btn-solid" style="width:100%; background:#374151; margin-top:18px; height: 48px;" onclick="closeModal('successModal')">বন্ধ করুন</button></div></div>
+
+    <div id="ordersModal" class="modal"><div class="modal-content"><span class="modal-close" onclick="closeModal('ordersModal')">&times;</span><h2 style="font-weight:800; margin-bottom:20px;"><i class="fas fa-box-open" style="color: var(--primary);"></i> আমার অর্ডারসমূহ</h2><div id="ordersList"></div></div></div>
+    <div id="supportModal" class="modal"><div class="modal-content"><span class="modal-close" onclick="closeModal('supportModal')">&times;</span><h2 style="font-weight:800; margin-bottom:22px;"><i class="fas fa-headset" style="color: var(--primary);"></i> কাস্টমার সাপোর্ট</h2><div id="supportLinks" style="display:grid; grid-template-columns:1fr 1fr; gap:14px;"></div></div></div>
+    
+    <div id="alertContainer"></div>
+
+    <!-- SCRIPTS (LOGIC UNTOUCHED) -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script>
+        // --- FIREBASE CONFIG ---
+        const firebaseConfig = {
+  apiKey: "AIzaSyADrt0YduGqgwN3Ia-kuU7zoNJMQ-ve6yE",
+  authDomain: "zentora-bb8b3.firebaseapp.com",
+  databaseURL: "https://zentora-bb8b3-default-rtdb.firebaseio.com",
+  projectId: "zentora-bb8b3",
+  storageBucket: "zentora-bb8b3.firebasestorage.app",
+  messagingSenderId: "942365445834",
+  appId: "1:942365445834:web:732607720486cf76092e33"
+};
+
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        let currentUser = null;
+        let cart = JSON.parse(localStorage.getItem('stshop_cart')) || [];
+        let currentProduct = null;
+        let selectedPaymentMethod = null;
+        let configData = {};
+        let swiper = null;
+
+        // --- UI & LOGIC ---
+        function initSwiper() {
+            swiper = new Swiper('.swiper-container', {
+                loop: true, autoplay: { delay: 4000, disableOnInteraction: false },
+                pagination: { el: '.swiper-pagination', clickable: true },
+            });
+        }
+
+        function createRipple(e) {
+            const btn = e.currentTarget;
+            const circle = document.createElement("span");
+            const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${e.clientX - btn.getBoundingClientRect().left - diameter/2}px`;
+            circle.style.top = `${e.clientY - btn.getBoundingClientRect().top - diameter/2}px`;
+            circle.classList.add("ripple");
+            const prev = btn.getElementsByClassName("ripple")[0];
+            if (prev) prev.remove();
+            btn.appendChild(circle);
+        }
+
+        function showAlert(msg, type) {
+            const alert = document.createElement('div');
+            alert.className = 'alert';
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            const color = type === 'success' ? '#10B981' : '#EF4444';
+            alert.style.borderLeftColor = color;
+            alert.innerHTML = `<i class="fas ${icon}" style="color:${color}; font-size:18px;"></i> ${msg}`;
+            document.getElementById('alertContainer').appendChild(alert);
+            setTimeout(() => { alert.style.opacity = '0'; alert.style.transform = 'translateX(50px)'; setTimeout(()=>alert.remove(), 400); }, 3500);
+        }
+
+        function openModal(id) {
+            const m = document.getElementById(id);
+            m.style.display = 'block';
+            setTimeout(() => m.classList.add('show-modal'), 10);
+        }
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            m.classList.remove('show-modal');
+            setTimeout(() => m.style.display = 'none', 300);
+        }
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('loginBtn').innerText = 'Profile';
+                document.getElementById('loginBtn').onclick = () => switchTab('profile-page', document.querySelectorAll('.nav-item')[3]);
+                loadUserData(user.uid);
+                loadPaymentHistory(user.uid);
+            } else {
+                currentUser = null;
+                document.getElementById('loginBtn').innerText = 'Login';
+                document.getElementById('loginBtn').onclick = () => openModal('authModal');
+            }
+            updateCartUI();
+        });
+
+        function loadUserData(uid) {
+            db.collection('users').doc(uid).onSnapshot(doc => {
+                if (doc.exists) {
+                    const d = doc.data();
+                    document.getElementById('profileName').innerText = d.name || 'User';
+                    document.getElementById('profileEmail').innerText = d.email || '';
+                    document.getElementById('profileBalance').innerText = d.balance || 0;
+                    document.getElementById('headerBalance').innerText = (d.balance || 0) + ' ৳';
+                }
+            });
+        }
+
+        function loadConfig() {
+            db.collection('config').doc('settings').onSnapshot(doc => {
+                if (doc.exists) {
+                    configData = doc.data();
+                    if (configData.noticeText && !sessionStorage.getItem('noticeShown')) {
+                        document.getElementById('welcomeText').innerText = configData.noticeText;
+                        document.getElementById('welcomeTgLink').href = configData.noticeLink || '#';
+                        openModal('welcomeModal');
+                        sessionStorage.setItem('noticeShown', 'true');
+                    }
+                    const ticker = document.getElementById('tickerContainer');
+                    if (configData.ticker) {
+                        let h = '';
+                        configData.ticker.forEach(t => h += `<div class="ticker-item"><i class="fas fa-bullhorn" style="color:var(--accent);"></i> ${t}</div>`);
+                        ticker.innerHTML = h + h;
+                    }
+                    loadSupportLinks();
+                }
+            });
+        }
+
+        function loadSupportLinks() {
+            const support = document.getElementById('supportLinks');
+            const links = [
+                {icon:'fab fa-telegram', name:'Telegram', key:'telegram', bg:'#0088cc'},
+                {icon:'fab fa-whatsapp', name:'WhatsApp', key:'whatsapp', bg:'#25D366'},
+                {icon:'fab fa-facebook', name:'Facebook', key:'facebook', bg:'#1877F2'},
+                {icon:'fab fa-youtube', name:'YouTube', key:'youtube', bg:'#FF0000'}
+            ];
+            support.innerHTML = '';
+            links.forEach(l => {
+                if(configData[l.key]) {
+                    const d = document.createElement('div');
+                    d.className = 'ripple-btn';
+                    d.style.cssText = `background:white; padding:15px; border-radius:18px; text-align:center; border:1px solid #F3F4F6; box-shadow:var(--shadow-premium); cursor:pointer;`;
+                    d.innerHTML = `<i class="${l.icon}" style="font-size:26px; color:${l.bg};"></i><div style="font-weight:700; margin-top:8px; font-size:13px;">${l.name}</div>`;
+                    d.onclick = (e) => { createRipple(e); setTimeout(()=> window.open(configData[l.key], '_blank'), 200); };
+                    support.appendChild(d);
+                }
+            });
+        }
+
+        function loadProducts() {
+            const render = (snap, containerId) => {
+                const c = document.getElementById(containerId);
+                c.innerHTML = '';
+                snap.forEach(doc => {
+                    const p = {id: doc.id, ...doc.data()};
+                    const reg = p.regularPrice || Math.round(p.price * 1.25);
+                    const div = document.createElement('div');
+                    div.className = 'product-card';
+                    div.innerHTML = `
+                        <img src="${p.image}" class="product-image" onclick="viewProductDetail('${p.id}',\`${p.title.replace(/'/g,"")}\`,${p.price},'${p.image}',\`${(p.desc||'').replace(/'/g,"")}\`,'${p.type}')">
+                        <div class="product-content">
+                            <h3 class="product-title">${p.title}</h3>
+                            <div class="product-price"><span class="regular-price">৳${reg}</span>৳${p.price}</div>
+                            <div class="product-buttons">
+                                <button class="btn btn-outline" onclick="addToCart('${p.id}',\`${p.title}\`,${p.price},'${p.image}','${p.type}')"><i class="fas fa-cart-plus"></i></button>
+                                <button class="btn btn-solid" onclick="viewProductDetail('${p.id}',\`${p.title}\`,${p.price},'${p.image}',\`${p.desc||''}\`,'${p.type}')">কিনুন</button>
+                            </div>
+                        </div>`;
+                    c.appendChild(div);
+                });
+            };
+            db.collection('products').where('type','==','course').where('status','==','active').onSnapshot(s => render(s, 'coursesContainer'));
+            db.collection('products').where('type','==','app').where('status','==','active').onSnapshot(s => render(s, 'appsContainer'));
+        }
+
+        function viewProductDetail(id, t, p, i, d, type) {
+            currentProduct = {id, title:t, price:p, image:i, desc:d, type};
+            document.getElementById('detailImage').src = i;
+            document.getElementById('detailTitle').innerText = t;
+            document.getElementById('detailPrice').innerText = `৳ ${p}`;
+            document.getElementById('detailDesc').innerText = d || 'কোনো বিবরণ দেওয়া নেই।';
+            openModal('productDetailModal');
+        }
+
+        function addToCart(id, t, p, i, type) {
+            if(!currentUser) return openModal('authModal');
+            cart.push({id, title:t, price:p, image:i, type, quantity:1});
+            localStorage.setItem('stshop_cart', JSON.stringify(cart));
+            updateCartUI();
+            showAlert('𝐂ᴀʀᴛে যুক্ত করা হয়েছে', 'success');
+        }
+
+        function addToCartFromDetail() { if(currentProduct) { addToCart(currentProduct.id, currentProduct.title, currentProduct.price, currentProduct.image, currentProduct.type); closeModal('productDetailModal'); } }
+
+        function updateCartUI() {
+            document.getElementById('cartBadge').innerText = cart.length;
+            const c = document.getElementById('cartItems');
+            const f = document.getElementById('cartFooter');
+            if(cart.length === 0) {
+                c.innerHTML = '<div style="text-align:center; padding:60px 0; color:#9CA3AF;"><i class="fas fa-cart-arrow-down" style="font-size:60px; margin-bottom:15px; opacity: 0.3;"></i><p style="font-weight:600;">আপনার 𝐂ᴀʀᴛটি খালি</p></div>';
+                f.style.display = 'none'; return;
+            }
+            let h = '', t = 0;
+            cart.forEach((item, idx) => {
+                t += item.price;
+                h += `<div class="menu-item" style="margin:0 0 15px 0; border: none;">
+                    <div style="display:flex; gap:14px; align-items:center;">
+                        <img src="${item.image}" style="width:55px; height:55px; border-radius:14px; object-fit:cover;">
+                        <div><div style="font-weight:700; font-size:14px; color: var(--text-title);">${item.title}</div><div style="color:var(--primary); font-weight:800;">৳ ${item.price}</div></div>
+                    </div>
+                    <i class="fas fa-trash-can" style="color:#EF4444; cursor:pointer; font-size: 18px;" onclick="removeFromCart(${idx})"></i>
+                </div>`;
+            });
+            c.innerHTML = h;
+            document.getElementById('cartTotal').innerText = t;
+            f.style.display = 'flex';
+        }
+
+        function removeFromCart(i) { cart.splice(i, 1); localStorage.setItem('stshop_cart', JSON.stringify(cart)); updateCartUI(); }
+
+        function checkoutCart() {
+            if(!currentUser) return openModal('authModal');
+            const total = cart.reduce((a, b) => a + b.price, 0);
+            db.collection('users').doc(currentUser.uid).get().then(doc => {
+                if((doc.data().balance || 0) >= total) {
+                    if(confirm(`৳${total} পেমেন্ট করে অর্ডার নিশ্চিত করবেন?`)) processCheckout(total);
+                } else {
+                    showAlert('পর্যাপ্ত ব্যালেন্স নেই!', 'error');
+                    switchTab('add-money-page', document.querySelectorAll('.nav-item')[1]);
+                }
+            });
+        }
+
+        function processCheckout(total) {
+            const batch = db.batch();
+            const orderDetails = [];
+            cart.forEach(item => {
+                const ref = db.collection('orders').doc();
+                const o = {uid:currentUser.uid, productId:item.id, title:item.title, price:item.price, image:item.image, type:item.type, date:firebase.firestore.FieldValue.serverTimestamp()};
+                batch.set(ref, o);
+                orderDetails.push(o);
+            });
+            db.collection('users').doc(currentUser.uid).get().then(doc => {
+                batch.update(db.collection('users').doc(currentUser.uid), {balance: (doc.data().balance||0) - total});
+                return batch.commit();
+            }).then(() => {
+                showSuccessModal(orderDetails);
+                cart = []; localStorage.setItem('stshop_cart', JSON.stringify(cart));
+                updateCartUI();
+            });
+        }
+
+        function buyNowFromDetail() {
+            if(!currentUser) return openModal('authModal');
+            db.collection('users').doc(currentUser.uid).get().then(doc => {
+                if((doc.data().balance||0) >= currentProduct.price) {
+                    if(confirm(`৳${currentProduct.price} পেমেন্ট করে এখনই কিনবেন?`)) {
+                        const ref = db.collection('orders').doc();
+                        const o = {uid:currentUser.uid, productId:currentProduct.id, title:currentProduct.title, price:currentProduct.price, image:currentProduct.image, type:currentProduct.type, date:firebase.firestore.FieldValue.serverTimestamp()};
+                        const bal = (doc.data().balance||0) - currentProduct.price;
+                        db.runTransaction(t => t.get(db.collection('users').doc(currentUser.uid)).then(() => {
+                            t.update(db.collection('users').doc(currentUser.uid), {balance: bal});
+                            t.set(ref, o);
+                        })).then(() => { closeModal('productDetailModal'); showSuccessModal([o]); });
+                    }
+                } else { showAlert('পর্যাপ্ত ব্যালেন্স নেই!', 'error'); switchTab('add-money-page'); }
+            });
+        }
+
+        function showSuccessModal(orders) {
+            const container = document.getElementById('successLinksContainer');
+            container.innerHTML = '';
+            document.getElementById('successMessage').innerText = `আপনার অর্ডারটি সফল হয়েছে। নিচে লিংক দেওয়া হলো।`;
+            
+            orders.forEach(order => {
+                const div = document.createElement('div');
+                div.style.cssText = "background:#F9FAFB; padding:15px; border-radius:15px; margin-top:12px; text-align:left; border:1px solid #E5E7EB;";
+                div.innerHTML = `<div style="font-size:12px; font-weight:800; color: #1F2937; margin-bottom:8px;">${order.title}</div>
+                    <div style="display:flex; gap:8px;">
+                        <div id="link-${order.productId}" style="background:white; padding:10px; border-radius:10px; font-size:12px; flex:1; border:1px solid #D1D5DB; overflow:hidden; font-family: monospace;">লোড হচ্ছে...</div>
+                        <button class="btn btn-solid" style="width:45px; padding:0; height:40px; border-radius:10px;" onclick="copyLink('${order.productId}')"><i class="fas fa-copy"></i></button>
+                    </div>`;
+                container.appendChild(div);
+                db.collection('products').doc(order.productId).get().then(d => {
+                    if(d.exists) document.getElementById(`link-${order.productId}`).innerText = d.data().link || 'লিংক নেই';
+                });
+            });
+            openModal('successModal');
+        }
+
+        function copyLink(id) {
+            const txt = document.getElementById(`link-${id}`).innerText;
+            if(txt !== 'লোড হচ্ছে...' && txt !== 'লিংক নেই') {
+                navigator.clipboard.writeText(txt).then(() => showAlert('লিংক কপি করা হয়েছে', 'success'));
+            }
+        }
+
+        function selectPaymentMethod(m) {
+            selectedPaymentMethod = m;
+            document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.method-card[data-brand="${m}"]`).classList.add('active');
+            document.getElementById('mainPaymentDashboard').style.display = 'none';
+            document.getElementById('paymentForm').style.display = 'block';
+            
+            const nums = {bkash: configData.bkash||'01XXXXXXXXX', nagad: configData.nagad||'01XXXXXXXXX', rocket: configData.rocket||'01XXXXXXXXX'};
+            document.getElementById('paymentMethodTitle').innerText = m.toUpperCase() + ' Manual Payment';
+            document.getElementById('paymentNumber').innerText = nums[m];
+        }
+
+        function backToMethods() {
+            document.getElementById('mainPaymentDashboard').style.display = 'block';
+            document.getElementById('paymentForm').style.display = 'none';
+        }
+
+        function submitPaymentRequest() {
+            const amt = document.getElementById('amountInput').value;
+            const trx = document.getElementById('trxInput').value;
+            if(!amt || !trx) return showAlert('সবগুলো তথ্য সঠিকভাবে দিন', 'error');
+            if(amt < 10) return showAlert('সর্বনিম্ন ১০ টাকা 𝐀ᴅᴅ 𝐌ᴏɴᴇʏ করুন', 'error');
+            db.collection('requests').add({
+                uid: currentUser.uid, email: currentUser.email, amount: Number(amt),
+                trx: trx, method: selectedPaymentMethod, status: 'pending',
+                time: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => { showAlert('রিকুয়েস্ট পাঠানো হয়েছে!', 'success'); backToMethods(); });
+        }
+
+        function initiateAutoPayment() {
+            const amount = document.getElementById('autoAmountInput').value;
+            if(!amount) return showAlert('টাকার পরিমাণ লিখুন', 'error');
+            if(configData.autoPayBrandKey) {
+                showAlert('পেমেন্ট গেটওয়েতে রিডাইরেক্ট করা হচ্ছে...', 'success');
+            } else showAlert('অটো পেমেন্ট বর্তমানে বন্ধ আছে', 'error');
+        }
+
+        function loadPaymentHistory(uid) {
+            db.collection('requests').where('uid', '==', uid).onSnapshot(snap => {
+                const c = document.getElementById('paymentHistory');
+                c.innerHTML = '';
+                if(snap.empty) { c.innerHTML = '<p style="text-align:center; padding:20px; color:#9CA3AF;">কোনো রেকর্ড নেই</p>'; return; }
+                let items = [];
+                snap.forEach(doc => items.push(doc.data()));
+                items.sort((a,b) => (b.time?b.time.seconds:0) - (a.time?a.time.seconds:0));
+                items.forEach(d => {
+                    const statusColor = d.status==='approved'?'#10B981':(d.status==='rejected'?'#EF4444':'#F59E0B');
+                    c.innerHTML += `<div class="menu-item" style="margin:0 0 12px 0; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+                        <div><div style="font-weight:800; font-size:14px; color: #1F2937;">${d.method.toUpperCase()}</div><div style="font-size:11px; color:#9CA3AF;">Trx: ${d.trx}</div></div>
+                        <div style="text-align:right;"><div style="font-weight:800; color:var(--primary);">৳ ${d.amount}</div><div style="font-size:10px; font-weight:800; color:${statusColor};">${d.status.toUpperCase()}</div></div>
+                    </div>`;
+                });
+            });
+        }
+
+        function openOrders() {
+            if(!currentUser) return openModal('authModal');
+            db.collection('orders').where('uid', '==', currentUser.uid).get().then(snap => {
+                const c = document.getElementById('ordersList');
+                c.innerHTML = '';
+                if(snap.empty) { c.innerHTML = '<p style="text-align:center; padding:30px; color:#9CA3AF;">এখনো কিছু কেনা হয়নি</p>'; openModal('ordersModal'); return; }
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    c.innerHTML += `<div class="menu-item" style="margin:0 0 15px 0;">
+                        <div style="display:flex; gap:12px; align-items:center;">
+                            <img src="${d.image}" style="width:45px; height:45px; border-radius:10px; object-fit:cover;">
+                            <div style="font-weight:700; font-size:13px; color: var(--text-title);">${d.title}</div>
+                        </div>
+                        <button class="btn btn-solid" style="width:85px; height:32px; font-size:11px; border-radius: 8px;" onclick="viewProductLink('${d.productId}')">লিংক দেখুন</button>
+                    </div>`;
+                });
+                openModal('ordersModal');
+            });
+        }
+
+        function viewProductLink(id) {
+            db.collection('products').doc(id).get().then(doc => {
+                if(doc.exists) showSuccessModal([{productId:id, title:doc.data().title}]);
+            });
+        }
+
+        function switchTab(p, e) {
+            document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+            document.getElementById(p).classList.add('active');
+            if(e) e.classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function switchAuthTab(t) {
+            document.getElementById('loginForm').style.display = t === 'login' ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = t === 'register' ? 'block' : 'none';
+            document.getElementById('tab-login').classList.toggle('active', t === 'login');
+            document.getElementById('tab-register').classList.toggle('active', t === 'register');
+            document.getElementById('tab-login').style.color = t === 'login' ? 'var(--primary)' : '#9CA3AF';
+            document.getElementById('tab-register').style.color = t === 'register' ? 'var(--primary)' : '#9CA3AF';
+        }
+
+        function login() {
+            const e = document.getElementById('loginEmail').value, p = document.getElementById('loginPassword').value;
+            if(!e || !p) return showAlert('ইমেইল ও পাসওয়ার্ড দিন', 'error');
+            auth.signInWithEmailAndPassword(e, p).then(() => { closeModal('authModal'); showAlert('লগইন সফল হয়েছে','success'); }).catch(err => showAlert(err.message, 'error'));
+        }
+        function register() {
+            const n = document.getElementById('registerName').value, e = document.getElementById('registerEmail').value, p = document.getElementById('registerPassword').value;
+            if(!n || !e || !p) return showAlert('সবগুলো ঘর পূরণ করুন', 'error');
+            auth.createUserWithEmailAndPassword(e, p).then(cred => db.collection('users').doc(cred.user.uid).set({name:n, email:e, balance:0})).then(() => { closeModal('authModal'); showAlert('রেজিস্ট্রেশন সফল হয়েছে','success'); }).catch(err => showAlert(err.message, 'error'));
+        }
+        function logout() { if(confirm('আপনি কি লগআউট করতে চান?')) auth.signOut().then(() => { showAlert('লগআউট সফল হয়েছে','success'); switchTab('home-page', document.querySelectorAll('.nav-item')[0]); }); }
+        function openSupport() { openModal('supportModal'); }
+        function copyPaymentNumber() { navigator.clipboard.writeText(document.getElementById('paymentNumber').innerText).then(() => showAlert('নম্বর কপি হয়েছে', 'success')); }
+
+        // --- INITIALIZE ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initSwiper(); loadConfig(); loadProducts();
+            db.collection('sliders').onSnapshot(snap => {
+                const c = document.getElementById('sliderContainer');
+                c.innerHTML = '';
+                snap.forEach(doc => c.innerHTML += `<div class="swiper-slide"><img src="${doc.data().image}"></div>`);
+                if(swiper) swiper.update();
+            });
+            document.querySelectorAll('.ripple-btn').forEach(btn => btn.addEventListener('click', createRipple));
+        });
+        
+        window.onclick = (e) => { if(e.target.className === 'modal') closeModal(e.target.id); }
+    </script>
+</body>
+</html>
